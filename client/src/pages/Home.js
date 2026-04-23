@@ -82,7 +82,7 @@ const Home = () => {
         <div className="hero-inner">
           <div className="hero-badge">👨‍💻 Built for programmers</div>
           <h1>Stuck on code?<br />Get unstuck fast.</h1>
-          <p>Tutorly connects developers of all levels with volunteer tutors. Ask anything — bugs, concepts, best practices, interview prep. Always free.</p>
+          <p>SL_Hub connects developers of all levels with volunteer tutors. Ask anything — bugs, concepts, best practices, interview prep. Always free.</p>
           <div className="hero-actions">
             {user ? (
               <Link to="/ask" className="btn btn-primary hero-cta">Ask a question →</Link>

@@ -18,9 +18,9 @@ const sendAnswerNotification = async ({ toEmail, toName, questionTitle, question
 
   try {
     await transporter.sendMail({
-      from: `"Tutorly" <${process.env.EMAIL_USER}>`,
+      from: `"SL_Hub" <${process.env.EMAIL_USER}>`,
       to: toEmail,
-      subject: `💬 ${answererName} answered your question on Tutorly`,
+      subject: `💬 ${answererName} answered your question on SL_Hub`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -41,7 +41,7 @@ const sendAnswerNotification = async ({ toEmail, toName, questionTitle, question
         <body>
           <div class="container">
             <div class="header">
-              <div class="logo">🎓 Tutorly</div>
+              <div class="logo">🎓 SL_Hub</div>
             </div>
             <div class="body">
               <p class="greeting">Hi ${toName},</p>
@@ -57,7 +57,7 @@ const sendAnswerNotification = async ({ toEmail, toName, questionTitle, question
               <a href="${questionUrl}" class="cta">View Answer →</a>
             </div>
             <div class="footer">
-              You're receiving this because you asked a question on Tutorly. 
+              You're receiving this because you asked a question on SL_Hub. 
               This is a free community platform — always free, always open.
             </div>
           </div>
