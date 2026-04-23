@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import api from "./utils/api";
 
 const AuthContext = createContext(null);
 
@@ -7,47 +7,28 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Set axios default auth header
-  const setAuthHeader = (token) => {
-    if (token) {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    } else {
-      delete axios.defaults.headers.common["Authorization"];
-    }
-  };
-
-  // Load user from localStorage on mount
   useEffect(() => {
-    const token = localStorage.getItem("tutorly_token");
     const savedUser = localStorage.getItem("tutorly_user");
-
-    if (token && savedUser) {
-      setAuthHeader(token);
+    if (savedUser) {
       setUser(JSON.parse(savedUser));
     }
     setLoading(false);
   }, []);
 
   const login = async (email, password) => {
-    const res = await axios.post("/api/auth/login", { email, password });
+    const res = await api.post("/api/auth/login", { email, password });
     const { token, user } = res.data;
-
     localStorage.setItem("tutorly_token", token);
     localStorage.setItem("tutorly_user", JSON.stringify(user));
-    setAuthHeader(token);
     setUser(user);
     return user;
   };
 
   const register = async (name, email, password, role, subjects) => {
-    const res = await axios.post("/api/auth/register", {
-      name, email, password, role, subjects,
-    });
+    const res = await api.post("/api/auth/register", { name, email, password, role, subjects });
     const { token, user } = res.data;
-
     localStorage.setItem("tutorly_token", token);
     localStorage.setItem("tutorly_user", JSON.stringify(user));
-    setAuthHeader(token);
     setUser(user);
     return user;
   };
@@ -55,7 +36,6 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("tutorly_token");
     localStorage.removeItem("tutorly_user");
-    setAuthHeader(null);
     setUser(null);
   };
 

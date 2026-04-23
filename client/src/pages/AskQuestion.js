@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../utils/api";
 import { useAuth } from "../context/AuthContext";
 import "./AskQuestion.css";
 
@@ -26,7 +26,7 @@ const AskQuestion = () => {
   const [step, setStep] = useState(1); // 1 = details, 2 = content
 
   useEffect(() => {
-    axios.get("/api/questions/subjects/all").then(res => setSubjects(res.data.subjects));
+    api.get("/api/questions/subjects/all").then(res => setSubjects(res.data.subjects));
   }, []);
 
   const handleChange = (e) => {
@@ -50,7 +50,7 @@ const AskQuestion = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post("/api/questions", form);
+      const res = await api.post("/api/questions", form);
       navigate(`/questions/${res.data.question.id}`);
     } catch (err) {
       setError(err.response?.data?.error || "Failed to post question. Try again.");

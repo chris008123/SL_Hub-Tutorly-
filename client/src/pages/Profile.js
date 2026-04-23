@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
+import api from "../utils/api";
 import { useAuth } from "../context/AuthContext";
 import "./Profile.css";
 
@@ -28,7 +28,7 @@ const Profile = () => {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get(`/api/users/${id}`);
+      const res = await api.get(`/api/users/${id}`);
       setProfile(res.data.user);
       setQuestions(res.data.questions);
       setAnswers(res.data.answers);
@@ -43,7 +43,7 @@ const Profile = () => {
   const handleSaveBio = async () => {
     setSaving(true);
     try {
-      await axios.patch(`/api/users/${id}/bio`, { bio });
+      await api.patch(`/api/users/${id}/bio`, { bio });
       setProfile(prev => ({ ...prev, bio }));
       setEditing(false);
     } catch (err) {

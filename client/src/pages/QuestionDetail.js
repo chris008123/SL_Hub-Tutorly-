@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import axios from "axios";
+import api from "../utils/api";
 import { useAuth } from "../context/AuthContext";
 import CodeBlock from "../components/CodeBlock";
 import "./QuestionDetail.css";
@@ -34,7 +34,7 @@ const QuestionDetail = () => {
 
   const fetchQuestion = async () => {
     try {
-      const res = await axios.get(`/api/questions/${id}`);
+      const res = await api.get(`/api/questions/${id}`);
       setQuestion(res.data.question);
       setAnswers(res.data.answers);
     } catch (err) {
@@ -52,7 +52,7 @@ const QuestionDetail = () => {
     setSubmitting(true);
     setError("");
     try {
-      const res = await axios.post("/api/answers", {
+      const res = await api.post("/api/answers", {
         body: answerBody,
         question_id: parseInt(id),
       });
@@ -76,7 +76,7 @@ const QuestionDetail = () => {
 
   const handleAcceptAnswer = async (answerId) => {
     try {
-      await axios.patch(`/api/answers/${answerId}/accept`);
+      await api.patch(`/api/answers/${answerId}/accept`);
       setAnswers(prev => prev.map(a => ({ ...a, is_accepted: a.id === answerId })));
       setQuestion(prev => ({ ...prev, status: "answered" }));
     } catch (err) {

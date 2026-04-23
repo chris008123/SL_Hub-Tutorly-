@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import api from "../utils/api";
 import { useAuth } from "../context/AuthContext";
 import "./Home.css";
 
@@ -36,7 +36,7 @@ const Home = () => {
 
   const fetchSubjects = async () => {
     try {
-      const res = await axios.get("/api/questions/subjects/all");
+      const res = await api.get("/api/questions/subjects/all");
       setSubjects(res.data.subjects);
     } catch (err) {
       console.error(err);
@@ -49,7 +49,7 @@ const Home = () => {
       const params = {};
       Object.entries(filters).forEach(([k, v]) => { if (v) params[k] = v; });
       if (search) params.search = search;
-      const res = await axios.get("/api/questions", { params });
+      const res = await api.get("/api/questions", { params });
       setQuestions(res.data.questions);
     } catch (err) {
       console.error(err);
