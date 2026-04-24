@@ -1,6 +1,7 @@
 const express = require("express");
 const { pool } = require("../models/db");
 const authMiddleware = require("../middleware/authMiddleware");
+const verifiedMiddleware = require("../middleware/verifiedMiddleware");
 
 const router = express.Router();
 
@@ -107,7 +108,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST /api/questions — create question
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/", authMiddleware, verifiedMiddleware, async (req, res) => {
   const { title, body, subject_id, experience_level, question_type } = req.body;
 
   if (!title || !body || !subject_id || !experience_level || !question_type) {

@@ -2,7 +2,7 @@ const { Pool } = require("pg");
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+  ssl: { rejectUnauthorized: false },
 });
 
 const initDB = async () => {
@@ -18,16 +18,31 @@ const initDB = async () => {
         reputation INTEGER DEFAULT 0,
         avatar_url TEXT,
         bio TEXT,
+        is_verified BOOLEAN DEFAULT FALSE,
+        verification_token TEXT,
+        verification_expiry TIMESTAMP,
         created_at TIMESTAMP DEFAULT NOW()
-      );
+      )
+    `);
 
+    // Add verification columns to existing users table if they don't exist
+    await pool.query(`
+      ALTER TABLE users
+        ADD COLUMN IF NOT EXISTS is_verified BOOLEAN DEFAULT FALSE,
+        ADD COLUMN IF NOT EXISTS verification_token TEXT,
+        ADD COLUMN IF NOT EXISTS verification_expiry TIMESTAMP
+    `);
+
+    await pool.query(`
       CREATE TABLE IF NOT EXISTS subjects (
         id SERIAL PRIMARY KEY,
         name VARCHAR(100) UNIQUE NOT NULL,
         icon VARCHAR(10),
         color VARCHAR(20)
-      );
+      )
+    `);
 
+    await pool.query(`
       CREATE TABLE IF NOT EXISTS questions (
         id SERIAL PRIMARY KEY,
         title VARCHAR(300) NOT NULL,
@@ -40,8 +55,10 @@ const initDB = async () => {
         status VARCHAR(20) DEFAULT 'open' CHECK (status IN ('open', 'answered')),
         views INTEGER DEFAULT 0,
         created_at TIMESTAMP DEFAULT NOW()
-      );
+      )
+    `);
 
+    await pool.query(`
       CREATE TABLE IF NOT EXISTS answers (
         id SERIAL PRIMARY KEY,
         body TEXT NOT NULL,
@@ -49,8 +66,10 @@ const initDB = async () => {
         user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
         is_accepted BOOLEAN DEFAULT FALSE,
         created_at TIMESTAMP DEFAULT NOW()
-      );
+      )
+    `);
 
+    await pool.query(`
       INSERT INTO subjects (name, icon, color) VALUES
         ('Python', '🐍', '#3B82F6'),
         ('JavaScript', '🟨', '#F59E0B'),
@@ -62,7 +81,7 @@ const initDB = async () => {
         ('Git & GitHub', '🐙', '#F97316'),
         ('Data Structures & Algorithms', '🧩', '#6366F1'),
         ('General Programming', '💻', '#22C55E')
-      ON CONFLICT (name) DO NOTHING;
+      ON CONFLICT (name) DO NOTHING
     `);
 
     console.log("✅ Database initialized successfully");

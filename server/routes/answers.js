@@ -1,12 +1,13 @@
 const express = require("express");
 const { pool } = require("../models/db");
 const authMiddleware = require("../middleware/authMiddleware");
+const verifiedMiddleware = require("../middleware/verifiedMiddleware");
 const { sendAnswerNotification } = require("../utils/mailer");
 
 const router = express.Router();
 
 // POST /api/answers — post an answer
-router.post("/", authMiddleware, async (req, res) => {
+router.post("/", authMiddleware, verifiedMiddleware, async (req, res) => {
   const { body, question_id } = req.body;
 
   if (!body || !question_id) {
