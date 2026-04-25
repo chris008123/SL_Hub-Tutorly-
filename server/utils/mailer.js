@@ -1,16 +1,22 @@
-const { Resend } = require("resend");
+const nodemailer = require("nodemailer");
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 const sendVerificationEmail = async ({ toEmail, toName, verificationUrl }) => {
-  if (!process.env.RESEND_API_KEY) {
-    console.log("📧 Resend not configured — skipping verification email");
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.log("📧 Email not configured — skipping verification email");
     return;
   }
 
   try {
-    await resend.emails.send({
-      from: "SL_Hub <onboarding@resend.dev>",
+    await transporter.sendMail({
+      from: `"SL_Hub" <${process.env.EMAIL_USER}>`,
       to: toEmail,
       subject: "✅ Verify your SL_Hub account",
       html: `
@@ -21,9 +27,8 @@ const sendVerificationEmail = async ({ toEmail, toName, verificationUrl }) => {
             body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f7f8fc; margin: 0; padding: 0; }
             .container { max-width: 560px; margin: 40px auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
             .header { background: #1a1a2e; padding: 28px 32px; }
-            .logo { color: white; font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; }
+            .logo { color: white; font-size: 1.4rem; font-weight: 800; }
             .body { padding: 32px; }
-            .greeting { font-size: 1rem; color: #0d0f1a; margin-bottom: 16px; }
             .cta { display: inline-block; background: #e94560; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; margin: 20px 0; }
             .note { font-size: 0.82rem; color: #9aa0be; margin-top: 16px; line-height: 1.5; }
             .footer { padding: 20px 32px; border-top: 1px solid #e2e5f0; font-size: 0.78rem; color: #9aa0be; }
@@ -31,13 +36,11 @@ const sendVerificationEmail = async ({ toEmail, toName, verificationUrl }) => {
         </head>
         <body>
           <div class="container">
-            <div class="header">
-              <div class="logo">🎓 SL_Hub</div>
-            </div>
+            <div class="header"><div class="logo">🎓 SL_Hub</div></div>
             <div class="body">
-              <p class="greeting">Hi ${toName},</p>
+              <p style="color: #0d0f1a;">Hi ${toName},</p>
               <p style="color: #5a6080; font-size: 0.95rem; line-height: 1.6;">
-                Welcome to SL_Hub! Please verify your email address to activate your account and start asking or answering questions.
+                Welcome to SL_Hub! Please verify your email to activate your account and start asking or answering questions.
               </p>
               <a href="${verificationUrl}" class="cta">Verify my email →</a>
               <p class="note">
@@ -45,9 +48,7 @@ const sendVerificationEmail = async ({ toEmail, toName, verificationUrl }) => {
                 If you didn't create an account, you can safely ignore this email.
               </p>
             </div>
-            <div class="footer">
-              SL_Hub — Free programming help for everyone.
-            </div>
+            <div class="footer">SL_Hub — Free programming help for everyone.</div>
           </div>
         </body>
         </html>
@@ -60,16 +61,16 @@ const sendVerificationEmail = async ({ toEmail, toName, verificationUrl }) => {
 };
 
 const sendAnswerNotification = async ({ toEmail, toName, questionTitle, questionId, answererName }) => {
-  if (!process.env.RESEND_API_KEY) {
-    console.log("📧 Resend not configured — skipping notification");
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.log("📧 Email not configured — skipping notification");
     return;
   }
 
   const questionUrl = `${process.env.CLIENT_URL}/questions/${questionId}`;
 
   try {
-    await resend.emails.send({
-      from: "SL_Hub <onboarding@resend.dev>",
+    await transporter.sendMail({
+      from: `"SL_Hub" <${process.env.EMAIL_USER}>`,
       to: toEmail,
       subject: `💬 ${answererName} answered your question on SL_Hub`,
       html: `
