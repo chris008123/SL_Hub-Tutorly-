@@ -1,19 +1,23 @@
-const { Resend } = require("resend");
+const SibApiV3Sdk = require("sib-api-v3-sdk");
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const client = SibApiV3Sdk.ApiClient.instance;
+const apiKey = client.authentications["api-key"];
+apiKey.apiKey = process.env.BREVO_API_KEY;
+
+const transactionalApi = new SibApiV3Sdk.TransactionalEmailsApi();
 
 const sendVerificationEmail = async ({ toEmail, toName, verificationUrl }) => {
-  if (!process.env.RESEND_API_KEY) {
-    console.log("📧 Resend not configured — skipping verification email");
+  if (!process.env.BREVO_API_KEY) {
+    console.log("📧 Brevo not configured — skipping verification email");
     return;
   }
 
   try {
-    const { error } = await resend.emails.send({
-      from: "SL_Hub <onboarding@resend.dev>",
-      to: toEmail,
+    await transactionalApi.sendTransacEmail({
+      sender: { name: "SL_Hub", email: "noreply@sl-hub.com" },
+      to: [{ email: toEmail, name: toName }],
       subject: "✅ Verify your SL_Hub account",
-      html: `
+      htmlContent: `
         <!DOCTYPE html>
         <html>
         <body style="font-family: Arial, sans-serif; background: #f7f8fc; margin: 0; padding: 0;">
@@ -24,7 +28,7 @@ const sendVerificationEmail = async ({ toEmail, toName, verificationUrl }) => {
             <div style="padding: 32px;">
               <p style="color: #0d0f1a;">Hi ${toName},</p>
               <p style="color: #5a6080; font-size: 0.95rem; line-height: 1.6;">
-                Welcome to SL_Hub! Please verify your email to activate your account.
+                Welcome to SL_Hub! Please verify your email to activate your account and start asking or answering questions.
               </p>
               <a href="${verificationUrl}" style="display: inline-block; background: #e94560; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; margin: 20px 0;">
                 Verify my email →
@@ -42,25 +46,23 @@ const sendVerificationEmail = async ({ toEmail, toName, verificationUrl }) => {
         </html>
       `,
     });
-
-    if (error) console.error("Resend error:", JSON.stringify(error));
-    else console.log(`📧 Verification email sent to ${toEmail}`);
+    console.log(`📧 Verification email sent to ${toEmail}`);
   } catch (err) {
-    console.error("Verification email error:", err.message);
+    console.error("Verification email error:", err.message || JSON.stringify(err));
   }
 };
 
 const sendAnswerNotification = async ({ toEmail, toName, questionTitle, questionId, answererName }) => {
-  if (!process.env.RESEND_API_KEY) return;
+  if (!process.env.BREVO_API_KEY) return;
 
   const questionUrl = `${process.env.CLIENT_URL}/questions/${questionId}`;
 
   try {
-    const { error } = await resend.emails.send({
-      from: "SL_Hub <onboarding@resend.dev>",
-      to: toEmail,
+    await transactionalApi.sendTransacEmail({
+      sender: { name: "SL_Hub", email: "noreply@sl-hub.com" },
+      to: [{ email: toEmail, name: toName }],
       subject: `💬 ${answererName} answered your question on SL_Hub`,
-      html: `
+      htmlContent: `
         <!DOCTYPE html>
         <html>
         <body style="font-family: Arial, sans-serif; background: #f7f8fc; margin: 0; padding: 0;">
@@ -88,11 +90,9 @@ const sendAnswerNotification = async ({ toEmail, toName, questionTitle, question
         </html>
       `,
     });
-
-    if (error) console.error("Resend error:", JSON.stringify(error));
-    else console.log(`📧 Answer notification sent to ${toEmail}`);
+    console.log(`📧 Answer notification sent to ${toEmail}`);
   } catch (err) {
-    console.error("Answer notification error:", err.message);
+    console.error("Answer notification error:", err.message || JSON.stringify(err));
   }
 };
 
