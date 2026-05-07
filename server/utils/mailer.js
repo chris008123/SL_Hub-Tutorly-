@@ -14,7 +14,7 @@ const sendVerificationEmail = async ({ toEmail, toName, verificationUrl }) => {
 
   try {
     await transactionalApi.sendTransacEmail({
-      sender: { name: "SL_Hub", email: "noreply@sl-hub.com" },
+      sender: { name: "SL_Hub", email: "aidoochris0081@gmail.com" },
       to: [{ email: toEmail, name: toName }],
       subject: "✅ Verify your SL_Hub account",
       htmlContent: `
