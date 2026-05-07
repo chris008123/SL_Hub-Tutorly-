@@ -5,7 +5,7 @@ import "./Auth.css";
 
 const VerifyEmail = () => {
   const [searchParams] = useSearchParams();
-  const [status, setStatus] = useState("verifying"); // verifying, success, error
+  const [status, setStatus] = useState("verifying");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -23,6 +23,14 @@ const VerifyEmail = () => {
       const res = await api.get(`/api/auth/verify-email?token=${token}`);
       setStatus("success");
       setMessage(res.data.message);
+
+      // Update the stored user object in localStorage so the banner disappears
+      const savedUser = localStorage.getItem("tutorly_user");
+      if (savedUser) {
+        const user = JSON.parse(savedUser);
+        user.is_verified = true;
+        localStorage.setItem("tutorly_user", JSON.stringify(user));
+      }
     } catch (err) {
       setStatus("error");
       setMessage(err.response?.data?.error || "Verification failed. Please try again.");

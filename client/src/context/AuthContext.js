@@ -9,8 +9,20 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const savedUser = localStorage.getItem("tutorly_user");
-    if (savedUser) {
+    const token = localStorage.getItem("tutorly_token");
+
+    if (savedUser && token) {
       setUser(JSON.parse(savedUser));
+      // Always fetch fresh user data on app load to get latest is_verified status
+      api.get("/api/auth/me").then(res => {
+        setUser(res.data.user);
+        localStorage.setItem("tutorly_user", JSON.stringify(res.data.user));
+      }).catch(() => {
+        // Token expired or invalid — log out
+        localStorage.removeItem("tutorly_token");
+        localStorage.removeItem("tutorly_user");
+        setUser(null);
+      });
     }
     setLoading(false);
   }, []);
@@ -39,8 +51,18 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const refreshUser = async () => {
+    try {
+      const res = await api.get("/api/auth/me");
+      setUser(res.data.user);
+      localStorage.setItem("tutorly_user", JSON.stringify(res.data.user));
+    } catch (err) {
+      console.error("Failed to refresh user", err);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
