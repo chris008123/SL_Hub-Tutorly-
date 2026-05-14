@@ -22,7 +22,6 @@
   /* The illustration is placed right-aligned via pseudo-element
      so text sits cleanly on the left */
 }
-
 /* Right-side illustration */
 .hero::after {
   content: "";
@@ -30,26 +29,21 @@
   inset: 0;
   background-image: var(--hero-bg);
   background-repeat: no-repeat;
-  background-position: right center;
-  background-size: contain;
-  mix-blend-mode: lighten;   /* drops the dark background of the PNG */
+
+  /* changed */
+  background-position: center center;
+  background-size: cover;
+
+  opacity: 0.28;
+
+  mix-blend-mode: lighten;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Subtle left-side fade so text is always readable */
+/* remove the left fade overlay */
 .hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to right,
-    #0d0d1a 45%,
-    rgba(13, 13, 26, 0.6) 65%,
-    transparent 100%
-  );
-  z-index: 1;
-  pointer-events: none;
+  display: none;
 }
 
 .hero-inner {
