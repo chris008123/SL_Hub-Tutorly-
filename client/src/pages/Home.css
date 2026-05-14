@@ -31,7 +31,8 @@
   background-image: var(--hero-bg);
   background-repeat: no-repeat;
   background-position: right center;
-  background-size: contain;   /* keeps the illustration proportional */
+  background-size: contain;
+  mix-blend-mode: lighten;   /* drops the dark background of the PNG */
   pointer-events: none;
   z-index: 0;
 }
