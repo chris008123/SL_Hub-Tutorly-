@@ -10,22 +10,11 @@
     radial-gradient(circle at 90% 20%, rgba(99,102,241,0.15) 0%, transparent 40%);
   padding: 60px 24px;
   color: white;
-  overflow: hidden;
 }
 
 .hero-inner {
-  max-width: 1200px;
+  max-width: 700px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 48px;
-}
-
-.hero-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
 }
 
 .hero-badge {
@@ -38,11 +27,10 @@
   font-weight: 500;
   margin-bottom: 20px;
   backdrop-filter: blur(4px);
-  width: fit-content;
 }
 
 .hero h1 {
-  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 800;
   line-height: 1.1;
   margin-bottom: 16px;
@@ -50,9 +38,9 @@
 }
 
 .hero p {
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: rgba(255,255,255,0.7);
-  max-width: 480px;
+  max-width: 500px;
   margin-bottom: 28px;
   line-height: 1.6;
 }
@@ -111,27 +99,6 @@
   width: 1px;
   height: 32px;
   background: rgba(255,255,255,0.15);
-}
-
-/* Hero illustration */
-.hero-illustration {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-illustration img {
-  width: 100%;
-  max-width: 520px;
-  height: auto;
-  border-radius: var(--radius-lg);
-  box-shadow: 0 24px 60px rgba(0,0,0,0.4);
-  animation: float 4s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
 }
 
 /* Content layout */
@@ -211,9 +178,20 @@
   flex: 1;
 }
 
-.search-input { flex: 1; }
-.search-btn { flex-shrink: 0; padding: 11px 18px; }
-.ask-btn { flex-shrink: 0; padding: 11px 18px; font-size: 0.88rem; }
+.search-input {
+  flex: 1;
+}
+
+.search-btn {
+  flex-shrink: 0;
+  padding: 11px 18px;
+}
+
+.ask-btn {
+  flex-shrink: 0;
+  padding: 11px 18px;
+  font-size: 0.88rem;
+}
 
 /* Question cards */
 .question-list {
@@ -259,13 +237,6 @@
 }
 
 .qcard-level {
-  font-size: 0.73rem;
-  padding: 3px 8px;
-  border-radius: 100px;
-  font-weight: 600;
-}
-
-.qcard-type {
   font-size: 0.73rem;
   color: var(--text-muted);
   background: var(--surface-3);
@@ -330,52 +301,12 @@
   color: var(--text-muted);
 }
 
-/* Active filters */
-.active-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
-  align-items: center;
-}
-
-.active-filter-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  background: var(--accent-soft);
-  color: var(--accent);
-  border-radius: 100px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.active-filter-tag button {
-  background: none;
-  border: none;
-  color: var(--accent);
-  cursor: pointer;
-  font-size: 1rem;
-  line-height: 1;
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
-
-.clear-filters {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.clear-filters:hover { color: var(--accent); }
-
 /* Skeleton */
-.loading-grid { display: flex; flex-direction: column; gap: 12px; }
+.loading-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
 .question-skeleton {
   height: 130px;
@@ -395,10 +326,23 @@
   text-align: center;
 }
 
-.empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
-.empty-state h3 { font-size: 1.1rem; color: var(--text-primary); margin-bottom: 6px; }
-.empty-state p { color: var(--text-muted); font-size: 0.9rem; }
+.empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
 
+.empty-state h3 {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.empty-state p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Page loading */
 .page-loading {
   display: flex;
   align-items: center;
@@ -409,26 +353,6 @@
 }
 
 /* Responsive */
-@media (max-width: 900px) {
-  .hero-inner {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .hero-badge { margin: 0 auto 20px; }
-  .hero p { margin: 0 auto 28px; }
-  .hero-actions { justify-content: center; }
-  .hero-stats { justify-content: center; }
-
-  .hero-illustration {
-    order: -1;
-  }
-
-  .hero-illustration img {
-    max-width: 380px;
-  }
-}
-
 @media (max-width: 768px) {
   .content-wrap {
     grid-template-columns: 1fr;
@@ -437,9 +361,9 @@
 
   .sidebar {
     position: static;
-    display: none;
+    display: none; /* hide on mobile for now */
   }
 
   .hero { padding: 40px 16px; }
-  .hero-illustration img { max-width: 300px; }
+  .hero-stats { gap: 16px; }
 }

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../utils/api";
 import { useAuth } from "../context/AuthContext";
-import heroIllustration from "../assets/hero-illustration.png";
 import "./Home.css";
 
 const EXPERIENCE_LEVELS = ["Beginner", "Intermediate", "Advanced"];
@@ -81,40 +80,34 @@ const Home = () => {
       {/* Hero */}
       <section className="hero">
         <div className="hero-inner">
-          <div className="hero-text">
-            <div className="hero-badge">👨‍💻 Built for programmers</div>
-            <h1>Stuck on code?<br />Get unstuck fast.</h1>
-            <p>SL_Hub connects developers of all levels with volunteer tutors. Ask anything — bugs, concepts, best practices, interview prep. Always free.</p>
-            <div className="hero-actions">
-              {user ? (
-                <Link to="/ask" className="btn btn-primary hero-cta">Ask a question →</Link>
-              ) : (
-                <>
-                  <Link to="/register" className="btn btn-primary hero-cta">Get started free →</Link>
-                  <Link to="/login" className="btn btn-outline hero-cta">Log in</Link>
-                </>
-              )}
-            </div>
-            <div className="hero-stats">
-              <div className="stat">
-                <span className="stat-num">{questions.length}+</span>
-                <span className="stat-label">Questions asked</span>
-              </div>
-              <div className="stat-divider" />
-              <div className="stat">
-                <span className="stat-num">{subjects.length}</span>
-                <span className="stat-label">Topics covered</span>
-              </div>
-              <div className="stat-divider" />
-              <div className="stat">
-                <span className="stat-num">Free</span>
-                <span className="stat-label">Always</span>
-              </div>
-            </div>
+          <div className="hero-badge">👨‍💻 Built for programmers</div>
+          <h1>Stuck on code?<br />Get unstuck fast.</h1>
+          <p>SL_Hub connects developers of all levels with volunteer tutors. Ask anything — bugs, concepts, best practices, interview prep. Always free.</p>
+          <div className="hero-actions">
+            {user ? (
+              <Link to="/ask" className="btn btn-primary hero-cta">Ask a question →</Link>
+            ) : (
+              <>
+                <Link to="/register" className="btn btn-primary hero-cta">Get started free →</Link>
+                <Link to="/login" className="btn btn-outline hero-cta">Log in</Link>
+              </>
+            )}
           </div>
-
-          <div className="hero-illustration">
-            <img src={heroIllustration} alt="Developer getting help on SL_Hub" />
+          <div className="hero-stats">
+            <div className="stat">
+              <span className="stat-num">{questions.length}+</span>
+              <span className="stat-label">Questions asked</span>
+            </div>
+            <div className="stat-divider" />
+            <div className="stat">
+              <span className="stat-num">{subjects.length}</span>
+              <span className="stat-label">Topics covered</span>
+            </div>
+            <div className="stat-divider" />
+            <div className="stat">
+              <span className="stat-num">Free</span>
+              <span className="stat-label">Always</span>
+            </div>
           </div>
         </div>
       </section>
@@ -123,6 +116,7 @@ const Home = () => {
       <div className="content-wrap">
         {/* Sidebar */}
         <aside className="sidebar">
+          {/* Topics */}
           <div className="filter-section card">
             <h3 className="filter-title">Topic</h3>
             <div className="filter-list">
@@ -142,6 +136,7 @@ const Home = () => {
             </div>
           </div>
 
+          {/* Experience Level */}
           <div className="filter-section card" style={{ marginTop: 12 }}>
             <h3 className="filter-title">Experience Level</h3>
             <div className="filter-list">
@@ -161,6 +156,7 @@ const Home = () => {
             </div>
           </div>
 
+          {/* Question Type */}
           <div className="filter-section card" style={{ marginTop: 12 }}>
             <h3 className="filter-title">Question Type</h3>
             <div className="filter-list">
@@ -180,6 +176,7 @@ const Home = () => {
             </div>
           </div>
 
+          {/* Status */}
           <div className="filter-section card" style={{ marginTop: 12 }}>
             <h3 className="filter-title">Status</h3>
             <div className="filter-list">
@@ -207,6 +204,7 @@ const Home = () => {
             )}
           </div>
 
+          {/* Active filters display */}
           {Object.values(filters).some(Boolean) && (
             <div className="active-filters">
               {Object.entries(filters).map(([key, value]) =>
