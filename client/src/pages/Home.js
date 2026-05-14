@@ -78,8 +78,11 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      {/* Hero */}
-      <section className="hero">
+      {/* Hero with background illustration */}
+      <section
+        className="hero"
+        style={{ "--hero-bg": `url(${heroIllustration})` }}
+      >
         <div className="hero-inner">
           <div className="hero-text">
             <div className="hero-badge">👨‍💻 Built for programmers</div>
@@ -112,30 +115,18 @@ const Home = () => {
               </div>
             </div>
           </div>
-
-          <div className="hero-illustration">
-            <img src={heroIllustration} alt="Developer getting help on SL_Hub" />
-          </div>
         </div>
       </section>
 
       {/* Content */}
       <div className="content-wrap">
-        {/* Sidebar */}
         <aside className="sidebar">
           <div className="filter-section card">
             <h3 className="filter-title">Topic</h3>
             <div className="filter-list">
-              <button
-                className={`filter-item ${!filters.subject ? "active" : ""}`}
-                onClick={() => setFilter("subject", "")}
-              >All topics</button>
+              <button className={`filter-item ${!filters.subject ? "active" : ""}`} onClick={() => setFilter("subject", "")}>All topics</button>
               {subjects.map(s => (
-                <button
-                  key={s.id}
-                  className={`filter-item ${filters.subject === s.name ? "active" : ""}`}
-                  onClick={() => setFilter("subject", s.name)}
-                >
+                <button key={s.id} className={`filter-item ${filters.subject === s.name ? "active" : ""}`} onClick={() => setFilter("subject", s.name)}>
                   <span>{s.icon}</span> {s.name}
                 </button>
               ))}
@@ -145,16 +136,9 @@ const Home = () => {
           <div className="filter-section card" style={{ marginTop: 12 }}>
             <h3 className="filter-title">Experience Level</h3>
             <div className="filter-list">
-              <button
-                className={`filter-item ${!filters.experience_level ? "active" : ""}`}
-                onClick={() => setFilter("experience_level", "")}
-              >All levels</button>
+              <button className={`filter-item ${!filters.experience_level ? "active" : ""}`} onClick={() => setFilter("experience_level", "")}>All levels</button>
               {EXPERIENCE_LEVELS.map(l => (
-                <button
-                  key={l}
-                  className={`filter-item ${filters.experience_level === l ? "active" : ""}`}
-                  onClick={() => setFilter("experience_level", l)}
-                >
+                <button key={l} className={`filter-item ${filters.experience_level === l ? "active" : ""}`} onClick={() => setFilter("experience_level", l)}>
                   {l === "Beginner" ? "🟢" : l === "Intermediate" ? "🟡" : "🔴"} {l}
                 </button>
               ))}
@@ -164,16 +148,9 @@ const Home = () => {
           <div className="filter-section card" style={{ marginTop: 12 }}>
             <h3 className="filter-title">Question Type</h3>
             <div className="filter-list">
-              <button
-                className={`filter-item ${!filters.question_type ? "active" : ""}`}
-                onClick={() => setFilter("question_type", "")}
-              >All types</button>
+              <button className={`filter-item ${!filters.question_type ? "active" : ""}`} onClick={() => setFilter("question_type", "")}>All types</button>
               {QUESTION_TYPES.map(t => (
-                <button
-                  key={t}
-                  className={`filter-item ${filters.question_type === t ? "active" : ""}`}
-                  onClick={() => setFilter("question_type", t)}
-                >
+                <button key={t} className={`filter-item ${filters.question_type === t ? "active" : ""}`} onClick={() => setFilter("question_type", t)}>
                   {QUESTION_TYPE_ICONS[t]} {t}
                 </button>
               ))}
@@ -190,21 +167,13 @@ const Home = () => {
           </div>
         </aside>
 
-        {/* Feed */}
         <main className="feed">
           <div className="feed-header">
             <form onSubmit={handleSearch} className="search-bar">
-              <input
-                className="form-input search-input"
-                placeholder="Search questions..."
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-              />
+              <input className="form-input search-input" placeholder="Search questions..." value={search} onChange={e => setSearch(e.target.value)} />
               <button type="submit" className="btn btn-primary search-btn">Search</button>
             </form>
-            {user && (
-              <Link to="/ask" className="btn btn-primary ask-btn">+ Ask Question</Link>
-            )}
+            {user && <Link to="/ask" className="btn btn-primary ask-btn">+ Ask Question</Link>}
           </div>
 
           {Object.values(filters).some(Boolean) && (
@@ -217,9 +186,7 @@ const Home = () => {
                   </span>
                 ) : null
               )}
-              <button className="clear-filters" onClick={() => setFilters({ subject: "", experience_level: "", question_type: "", status: "" })}>
-                Clear all
-              </button>
+              <button className="clear-filters" onClick={() => setFilters({ subject: "", experience_level: "", question_type: "", status: "" })}>Clear all</button>
             </div>
           )}
 
@@ -232,50 +199,22 @@ const Home = () => {
               <div className="empty-icon">🔍</div>
               <h3>No questions found</h3>
               <p>Try a different filter or be the first to ask!</p>
-              {user && (
-                <Link to="/ask" className="btn btn-primary" style={{ marginTop: 16 }}>
-                  Ask the first question
-                </Link>
-              )}
+              {user && <Link to="/ask" className="btn btn-primary" style={{ marginTop: 16 }}>Ask the first question</Link>}
             </div>
           ) : (
             <div className="question-list">
               {questions.map((q, i) => (
-                <Link
-                  to={`/questions/${q.id}`}
-                  key={q.id}
-                  className="question-card card fade-in"
-                  style={{ animationDelay: `${i * 0.04}s` }}
-                >
+                <Link to={`/questions/${q.id}`} key={q.id} className="question-card card fade-in" style={{ animationDelay: `${i * 0.04}s` }}>
                   <div className="qcard-top">
                     <div className="qcard-meta">
-                      {q.subject_name && (
-                        <span className="qcard-subject" style={{ background: `${q.subject_color}18`, color: q.subject_color }}>
-                          {q.subject_icon} {q.subject_name}
-                        </span>
-                      )}
-                      {q.experience_level && (
-                        <span className="qcard-level" style={{
-                          background: LEVEL_COLORS[q.experience_level]?.bg,
-                          color: LEVEL_COLORS[q.experience_level]?.color
-                        }}>
-                          {q.experience_level}
-                        </span>
-                      )}
-                      {q.question_type && (
-                        <span className="qcard-type">
-                          {QUESTION_TYPE_ICONS[q.question_type]} {q.question_type}
-                        </span>
-                      )}
+                      {q.subject_name && <span className="qcard-subject" style={{ background: `${q.subject_color}18`, color: q.subject_color }}>{q.subject_icon} {q.subject_name}</span>}
+                      {q.experience_level && <span className="qcard-level" style={{ background: LEVEL_COLORS[q.experience_level]?.bg, color: LEVEL_COLORS[q.experience_level]?.color }}>{q.experience_level}</span>}
+                      {q.question_type && <span className="qcard-type">{QUESTION_TYPE_ICONS[q.question_type]} {q.question_type}</span>}
                     </div>
-                    <span className={`badge badge-${q.status}`}>
-                      {q.status === "open" ? "Open" : "Answered"}
-                    </span>
+                    <span className={`badge badge-${q.status}`}>{q.status === "open" ? "Open" : "Answered"}</span>
                   </div>
-
                   <h3 className="qcard-title">{q.title}</h3>
                   <p className="qcard-body">{q.body}</p>
-
                   <div className="qcard-footer">
                     <div className="qcard-author">
                       <div className="mini-avatar">{q.author_name?.charAt(0).toUpperCase()}</div>
