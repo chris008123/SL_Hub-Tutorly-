@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import { useAuth } from "../context/AuthContext";
 import "./AskQuestion.css";
+import useAutoAiAnswer from "../hooks/useAutoAiAnswer";
 
 const EXPERIENCE_LEVELS = ["Beginner", "Intermediate", "Advanced"];
 const QUESTION_TYPES = [
@@ -23,6 +24,7 @@ const AskQuestion = () => {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const triggerAiAnswer = useAutoAiAnswer();
   const [step, setStep] = useState(1); // 1 = details, 2 = content
 
   useEffect(() => {
@@ -51,6 +53,9 @@ const AskQuestion = () => {
     setLoading(true);
     try {
       const res = await api.post("/api/questions", form);
+      const { id, title, body } = res.data.question;
+      const subject = subjects.find(s => s.id === parseInt(form.subject_id));
+      triggerAiAnswer({ question_id: id, title, body, subject: subject?.name, experience_level: form.experience_level, question_type: form.question_type });
       navigate(`/questions/${res.data.question.id}`);
     } catch (err) {
       setError(err.response?.data?.error || "Failed to post question. Try again.");
