@@ -9,6 +9,7 @@ import AskQuestion from "./pages/AskQuestion";
 import QuestionDetail from "./pages/QuestionDetail";
 import Profile from "./pages/Profile";
 import VerifyEmail from "./pages/VerifyEmail";
+import { Analytics } from "@vercel/analytics/react"
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
