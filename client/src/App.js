@@ -9,6 +9,7 @@ import AskQuestion from "./pages/AskQuestion";
 import QuestionDetail from "./pages/QuestionDetail";
 import Profile from "./pages/Profile";
 import VerifyEmail from "./pages/VerifyEmail";
+import AiTutor from "./pages/AiTutor";
 import { Analytics } from "@vercel/analytics/react"
 
 const ProtectedRoute = ({ children }) => {
@@ -36,6 +37,7 @@ function App() {
         <Route path="/questions/:id" element={<QuestionDetail />} />
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="/ai-tutor" element={<AiTutor />} />
         <Route path="*" element={
           <div style={{ textAlign: "center", padding: "80px 20px" }}>
             <div style={{ fontSize: "3rem" }}>🔍</div>
