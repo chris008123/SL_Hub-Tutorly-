@@ -21,7 +21,7 @@ const Navbar = () => {
 
         <div className="navbar-links">
           <Link to="/" className="nav-link">Browse</Link>
-          <Link to="/ai-tutor" className="nav-link">🤖 AI Tutor</Link>
+          <Link to="/ai-tutor" className="nav-link">AI Tutor</Link>
           {user && <Link to="/ask" className="nav-link">Ask</Link>}
         </div>
 
