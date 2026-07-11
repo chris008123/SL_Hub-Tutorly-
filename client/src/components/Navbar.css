@@ -124,5 +124,6 @@
     border-radius: 8px;
     font-size: 0.62rem;
     font-weight: 600;
+    white-space: nowrap;
   }
 }
