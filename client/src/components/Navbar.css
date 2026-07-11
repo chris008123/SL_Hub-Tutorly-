@@ -113,17 +113,18 @@
 
 @media (max-width: 600px) {
   .nav-user-info { display: none; }
-  .navbar-inner { padding: 0 16px; gap: 16px; }
+  .navbar-inner { padding: 0 16px; gap: 12px; }
   .navbar-links { flex: unset; }
   .nav-link:not([href="/ai-tutor"]) { display: none; }
   .logo-text { font-size: 0.8rem; }
   .nav-link[href="/ai-tutor"] {
-    background: linear-gradient(135deg, #a4a575, #9c460d);
+    background: var(--brand);
     color: #fff;
-    padding: 3px 11px;
-    border-radius: 8px;
-    font-size: 0.72rem;
-    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 500;
     white-space: nowrap;
+    text-decoration: none;
   }
 }
