@@ -113,6 +113,7 @@
 
 @media (max-width: 600px) {
   .nav-user-info { display: none; }
-  .navbar-links { display: none; }
   .navbar-inner { padding: 0 16px; gap: 16px; }
+  .navbar-links { flex: unset; }
+  .nav-link:not([href="/ai-tutor"]) { display: none; }
 }
