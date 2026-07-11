@@ -118,11 +118,11 @@
   .nav-link:not([href="/ai-tutor"]) { display: none; }
   .logo-text { font-size: 0.9rem; }
   .nav-link[href="/ai-tutor"] {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background: linear-gradient(135deg, #6366f1, #9c460d);
     color: #fff;
-    padding: 7px 14px;
+    padding: 7px 12px;
     border-radius: 8px;
     font-size: 0.82rem;
-    font-weight: 600;
+    font-weight: 400;
   }
 }
