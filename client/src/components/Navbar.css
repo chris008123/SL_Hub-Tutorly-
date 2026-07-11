@@ -120,9 +120,9 @@
   .nav-link[href="/ai-tutor"] {
     background: linear-gradient(135deg, #6366f1, #9c460d);
     color: #fff;
-    padding: 4px 15px;
+    padding: 4px 13px;
     border-radius: 8px;
-    font-size: 0.62rem;
+    font-size: 0.72rem;
     font-weight: 600;
     white-space: nowrap;
   }
