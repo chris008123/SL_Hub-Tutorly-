@@ -116,4 +116,5 @@
   .navbar-inner { padding: 0 16px; gap: 16px; }
   .navbar-links { flex: unset; }
   .nav-link:not([href="/ai-tutor"]) { display: none; }
+  .logo-text { font-size: 0.95rem; }
 }
