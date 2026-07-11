@@ -116,11 +116,11 @@
   .navbar-inner { padding: 0 16px; gap: 16px; }
   .navbar-links { flex: unset; }
   .nav-link:not([href="/ai-tutor"]) { display: none; }
-  .logo-text { font-size: 0.7rem; }
+  .logo-text { font-size: 0.8rem; }
   .nav-link[href="/ai-tutor"] {
-    background: linear-gradient(135deg, #e1e43f, #9c460d);
+    background: linear-gradient(135deg, #a4a575, #9c460d);
     color: #fff;
-    padding: 3px 9px;
+    padding: 3px 11px;
     border-radius: 8px;
     font-size: 0.72rem;
     font-weight: 600;
